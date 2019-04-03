@@ -1,0 +1,14 @@
+#score{
+    display: inline-grid;
+    grid-template: 1fr / 8vw 5vw 5vw 8vw;
+    background: pink;
+    text-align: center;
+}
+
+#scoretitle{
+    grid-column: 1 / span 4;
+}
+
+#score p{
+    border: 1px solid black;
+}

@@ -1,3 +1,10 @@
+//GLOBAL VARIABLES
+let newGame = true;
+let gameDataDiv = document.querySelector('#gamedata');
+let playerScoreP = document.querySelector('#playerScore');
+let computerScoreP = document.querySelector('#computerScore');
+let resultsDiv = document.querySelector('#results');
+
 //FUNCTIONS
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -18,34 +25,63 @@ function computerPlay(){
 }
 
 function playRound(playerSelection, computerSelection){
-    let result;
+    let playerScore = parseInt(playerScoreP.textContent);
+    let computerScore = parseInt(computerScoreP.textContent);
+    
     let player = playerSelection.toUpperCase();
     let computer = computerSelection.toUpperCase();
+    let result = "Choice: " + player + " | ";
+    let resultP = document.createElement('p');
+
+    if (newGame) {
+        gameDataDiv.removeChild(resultsDiv);
+        resultsDiv = document.createElement('div');
+        resultsDiv.setAttribute("id", "results");
+        gameDataDiv.appendChild(resultsDiv);
+
+        computerScore = 0;
+        playerScore = 0;
+        newGame = false;
+    }
+    
 
     if (player == computer) {
-        result = "There's a draw!";
-    } else if (player == "ROCK") {
-        if (computer == "SCISSORS")
-            result = "You Win! Rock beats scissors";
-        else   
-            result = "You Lose! Paper beats rock";
-    } else if (player == "SCISSORS") {
-        if (computer == "PAPER")
-            result = "You Win! Scissors beats paper";
-        else
-            result = "You Lose! Rock beats scissors";
-    } else if (player == "PAPER") {
-        if (computer == "ROCK")
-            result = "You Win! Paper beats rock";
-        else
-            result = "You Lose! Scissors beats paper";
+        result += "There's a draw!";
+        resultP.style.background = "grey";
+    } else if ((player == "ROCK" && computer == "SCISSORS") || (player=="PAPER"
+     && computer=="ROCK") || (player=="SCISSORS" && computer == "PAPER")) {
+        result += "You Win! " + player + " beats " + computer;
+        resultP.style.background = "green";
+        playerScore++;
     } else {
-        result = "Not a valid choice (" + playerSelection + ")";
+        result += "You Lose! " + computer + " beats " + player;
+        resultP.style.background = "red";
+        computerScore++;
     }
 
-    return result;
+    playerScoreP.textContent = playerScore;
+    computerScoreP.textContent = computerScore;
+    
+    resultP.textContent = result;
+    resultsDiv.appendChild(resultP);    
+
+    //Check if anyone has won the game
+    if (playerScore >= 5) {
+        let newGameP = document.createElement('p');
+        newGameP.style.background = "cyan";
+        newGameP.textContent = "Congratulations! You've won 5 times";
+        resultsDiv.appendChild(newGameP);
+        newGame = true;
+    } else if (computerScore >= 5) {
+        let newGameP = document.createElement('p');
+        newGameP.style.background = "pink";
+        newGameP.textContent = "Oops! You've lost 5 times, good luck next time";
+        resultsDiv.appendChild(newGameP);
+        newGame = true;
+    }
 }
 
+// DEPRECATED!
 function game(){
     for (let i = 0; i < 5; i++){
         playerSelection = prompt("Rock, paper or scissors?");
@@ -54,25 +90,10 @@ function game(){
 }
 
 //DOM MANIPULATING
-let resultsDiv = document.querySelector('#results');
 let rockBtn = document.querySelector('#rock');
 let paperBtn = document.querySelector('#paper');
 let scissorsBtn = document.querySelector('#scissors');
 
-rockBtn.addEventListener('click', () => {
-    let result = document.createElement('p');
-    result.textContent = playRound('rock', computerPlay());
-    resultsDiv.appendChild(result);
-});
-
-paperBtn.addEventListener('click', () => {
-    let result = document.createElement('p');
-    result.textContent = playRound('paper', computerPlay());
-    resultsDiv.appendChild(result);
-});
-
-scissorsBtn.addEventListener('click', () => {
-    let result = document.createElement('p');
-    result.textContent = playRound('scissors', computerPlay());
-    resultsDiv.appendChild(result);
-});
+rockBtn.addEventListener('click', () => playRound("rock", computerPlay()));
+paperBtn.addEventListener('click', () => playRound("paper", computerPlay()));
+scissorsBtn.addEventListener('click', () => playRound("scissors", computerPlay()));

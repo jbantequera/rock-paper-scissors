@@ -3,18 +3,30 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>JavaScript Sandbox</title>
+    <title>Rock, Paper, Scissors</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <h1>JavaScript Sandbox</h1>
+    <h1>Rock, Paper, Scissors</h1>
     <div id="options">
         <p>Choose your hand</p>
         <button id="rock">Rock</button>
         <button id="paper">Paper</button>
         <button id="scissors">Scissors</button>
     </div>
-    <div id="results">
+    <div id="gamedata">
+        <h2>Results</h2>
+        <div id="score">
+            <p id="scoretitle">Score </p>
+            <p>PLAYER</p> 
+            <p id="playerScore">0</p>
+            <p id="computerScore">0</p>
+            <p>COMPUTER</p>
+        </div>
+        <div id="results">
+            <!-- Resultados de cada ronda -->
+        </div>
     </div>
 </body>
 <script src="game.js"></script>
